@@ -12,3 +12,4 @@ chmod -R 777 ./laravel/storage
 cp -r ./docker/. ./laravel
 rm -rf docker
 rm init.sh
+cp -r ./laravel/. . && rm -rf laravel
