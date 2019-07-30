@@ -1,0 +1,74 @@
+version: '3'
+services:
+  app:
+    image: laravel
+    build: .
+    container_name: laravel
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+    environment:
+      - IS_QUEUE=false
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=app
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
+    working_dir: /var/www/webroot/ROOT
+    volumes:
+      - .:/var/www/webroot/ROOT
+      - vendor:/var/www/webroot/ROOT/vendor
+    depends_on: 
+      - db
+    entrypoint:
+      - entrypoint.sh
+    networks:
+      - app-network
+  db:
+    image: mysql:5.7.27
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: app
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - app-network
+  queue:
+    image: laravel
+    build: .
+    container_name: queue
+    restart: unless-stopped
+    tty: true
+    environment:
+      - IS_QUEUE=true
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=scribbble
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - QUEUE=emails
+    working_dir: /var/www/webroot/ROOT
+    entrypoint:
+      - entrypoint.sh
+    networks:
+      - app-network
+  redis:
+    image: redis
+    container_name: redis
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "6379:6379"
+volumes:
+  vendor:
+networks:
+  app-network:
+    driver: bridge
