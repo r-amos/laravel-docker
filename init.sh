@@ -10,5 +10,5 @@ function start() {
 [[ ! -d laravel ]] &&  get_laravel
 chmod -R 777 ./laravel/storage
 cp -r ./docker/. ./laravel
-rm docker
+rm -rf docker
 rm init.sh
