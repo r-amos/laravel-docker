@@ -18,14 +18,16 @@ Edit `docker/docker-compose.yaml` as required.
 ## Useage
 
 Once installed, run `docker-compose` in the project directory to spin up:
-- `laravel` application container
-- `db` database container
-- `queue` queue worker container
-- `redis` queue container
 
 ```bash
 cd project-name
 docker-compose up -d
 ```
 
-Visit `localhost`.
+Will create the following containers:
+- `laravel` application
+- `db` database 
+- `queue` queue worker
+- `redis` queue
+
+Visit `localhost`
