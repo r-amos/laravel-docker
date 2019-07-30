@@ -8,7 +8,6 @@ function start() {
 }
 
 [[ ! -d laravel ]] &&  get_laravel
-chmod -R 777 ./laravel/storage
 cp -r ./docker/. ./laravel
 
 # Tidy Folders
@@ -16,3 +15,4 @@ rm -rf docker
 rm init.sh
 cp -r ./laravel/. . && rm -rf laravel
 cp -r . .. && rm -rf ../laravel-docker
+chmod  -R 777 ../storage
