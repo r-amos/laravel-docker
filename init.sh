@@ -7,12 +7,18 @@ function start() {
     docker-compose up -d
 }
 
-[[ ! -d laravel ]] &&  get_laravel
-cp -r ./docker/. ./laravel
+function tidy() {
+    rm -rf docker
+    rm init.sh
+    cp -r ./laravel/. . && rm -rf laravel
+    cp -r . .. && rm -rf ../laravel-docker
+}
 
-# Tidy Folders
-rm -rf docker
-rm init.sh
-cp -r ./laravel/. . && rm -rf laravel
-cp -r . .. && rm -rf ../laravel-docker
-chmod  -R 777 ../storage
+function init() {
+    get_laravel
+    cp -r ./docker/. ./laravel
+    tidy
+    chmod  -R 777 ../storage
+}
+
+init
